@@ -75,19 +75,44 @@ A terceira fase envolveu o fine-tuning de um modelo disponibilizado pela Open AI
 
   - O arquivo final foi salvo em formato JSON, permitindo que o GPT-4.0 utilizasse esses dados para treinamento e futuras inferências.
 
-- **Criação do job de fine tuning**: Realizou-se o fine tuning com o primeiro set de 20 mil linhas, obtendo-se uma taxa de custo-benefício satisfatória, dada a utilização de cupons promocionais. O set de dados foi dividido em 2.000 entradas por job de fine tuning, para avaliar melhor a performance e possível overfitting. O resultado esperado do treinamento é a obtenção de um modelo que consiga sugerir descrições mais assertivas e de alta relevância para cada título fornecido.
+- **Criação do job de fine tuning**:
+
+    - Realizou-se o fine tuning com o primeiro set de 20 mil linhas.
+    - O modelo gerado por esse primeiro fine tuning foi então utilizado como base para uma segunda rodada de fine tuning, dessa vez com o segundo set de 20 mil linhas.
+    - Em ambas as etapas, após algumas deliberações, foram definidos como hiper parâmetros:
+      - epochs: 1
+      - batch size: 8
+      - learning rate: 0.6
 
 ### Conclusão da Parte 3
 
-Ao final deste treinamento, o modelo gpt-4o-mini-2024-07-18 foi capaz de gerar descrições detalhadas e relevantes a partir de títulos de produtos. A utilização dos cupons de desconto permitiu que o fine-tuning fosse realizado de maneira econômica. A modularização dos jobs de treinamento foi fundamental para garantir a análise detalhada do desempenho e ajustes, conforme necessário.
+- Utilizar a plataforma disponibilizada pela Open AI por um lado apresenta a facilidade de não se preocupar em ter o poder computacional necessário para fazer o fine tuning, porém por outro lado o custo financeiro acabou entrando na equação ao se definir os melhores hiper parâmetros.
+- Por se tratarem de modelos já bem desenvolvidos, os modelos da Open AI originais já respondem muito bem (ou até melhor) ao prompt, uma vez que os dados utilizados para treino são comentários "não tratados ou verificados" de pessoas em relação a produtos.
+- Também devido ao estágio de maturidade dos modelos, executar 1 epoch foi o suficiente para obter um resultado razoável, dado que o custo aumenta muito ao aumentar o número de epochs.
+- Optamos por utilizar o modelo `gpt-4o-mini-2024-07-18` como base por estar em um período de custo reduzido (até 23/09/2024). Do contrário, poderíamos tentar utilizar outros modelos como `babbage` ou `davinci`.
+- Executar 1 epoch com batch size alto (16 ou 32) ou com learning rates pequenos (0.1 ou 0.2) fez com que o resultado não fosse bom. Chegamos a um nível aceitável de resultado x custo utilizando batch size 8 e learning rate 0.6.
 
 [Fine-tuning com Open AI](https://github.com/rafaelpivetta/tech-challenge-fase3/blob/83dac8e97fc66ee88ac385d8e72fd67666de0b1a/fine-tuning/Open%20AI/open-ai-fine-tuning.ipynb)
 
-## Conclusão Final
+### Conclusão Final:
 
-Este Tech Challenge destacou a importância da escolha cuidadosa do modelo e das técnicas de otimização para o sucesso do fine-tuning. A utilização do LLaMA com Unsloth e LoRA permitiu otimizar recursos e ainda obter um modelo altamente eficiente. Já o modelo GPT-4.0 mini demonstrou seu valor em fornecer respostas detalhadas e assertivas com um custo-benefício interessante.
+Para esse Tech Challenge, optamos por exercitar o fine tuning com 2 foundation models diferentes, o LLaMA e o gpt-4.0-mini-2024-07-18, para efeito de comparação.
 
-Em futuras iterações, explorar a integração desses modelos para obter um sistema de question-answering ainda mais robusto seria o próximo passo, especialmente utilizando os dados da Amazon como base.
+### Cumprimento das Entregas Esperadas:
+
+1. **Seleção e Preparação do Dataset:**
+   - O dataset The AmazonTitles-1.3MM foi dividido em partes menores e processado conforme necessário. O pré-processamento garantiu a limpeza, tokenização e formatação adequadas dos dados, assegurando que o modelo recebesse entradas uniformes e relevantes.
+
+2. **Fine-Tuning dos Modelos:**
+   - **LLaMA com LoRA e Unsloth:** O uso de LoRA (Low-Rank Adaptation) no modelo LLaMA permitiu o ajuste eficiente dos pesos das camadas específicas, maximizando a utilização dos recursos computacionais. A técnica Unsloth, com quantização de 4 bits, reduziu a carga de memória, mantendo a precisão e permitindo o treinamento em ambientes de processamento limitados.
+   - **gpt-4.0-mini-2024-07-18:** O custo de utilização do modelo acabou tendo um papel importante na definição dos hiper parâmetros ideais, o que na prática até faz sentido no mundo real. Com amostras menores com cerca de 2 mil registros, pode-se chegar a resultados muito interessantes com 3 epochs. Porém, o custo aumenta muito com mais registros, inviabilizando o treinamento com mais de 1 epoch.
+
+3. **Geração de Respostas e Inferência:**
+   - Tanto o LLaMA quanto o GPT-4.0-mini foram testados com prompts baseados em exemplos de produtos, gerando respostas detalhadas e relevantes. O uso de prompts do Alpaca e a estrutura de mensagens em formato JSON garantiram que as respostas fossem formatadas corretamente, atendendo às expectativas para uso em futuras inferências.
+
+4. **Documentação e Entregáveis:**
+   - Foram produzidos todos os entregáveis esperados, incluindo a documentação detalhada do processo de seleção e preparação dos dados, o código-fonte completo do fine-tuning.
+   - Além disso, um vídeo demonstrativo foi produzido, mostrando o modelo treinado respondendo a perguntas de usuários com base nas descrições de produtos da Amazon.
 
 ## Links Úteis
 
