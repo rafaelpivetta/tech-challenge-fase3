@@ -92,8 +92,9 @@ Em futuras iterações, explorar a integração desses modelos para obter um sis
 ## Links Úteis
 
 - **Dataset**: [The AmazonTitles-1.3MM](https://huggingface.co/LuizfvFonseca)
-- **Modelo**: [rafaelpivetta/tinyllama-chat-bnb-4bit-g19](https://huggingface.co/rafaelpivetta/tinyllama-chat-bnb-4bit-g19)
+- **Modelo finetuned**: [rafaelpivetta/tinyllama-chat-bnb-4bit-g19](https://huggingface.co/rafaelpivetta/tinyllama-chat-bnb-4bit-g19)
 - **Modelos Usados**:
   - [LLaMA](https://huggingface.co/unsloth/tinyllama-chat-bnb-4bit)
   - [gpt-4o-mini-2024-07-18](https://platform.openai.com/docs/models/gpt-4o-mini)
-  - [Unsloth](https://github.com/unslothai/unsloth)
+- **Unsloth**: [Unsloth](https://github.com/unslothai/unsloth)
+- **Google Colab**: [Colab] https://colab.research.google.com/
